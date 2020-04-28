@@ -1,0 +1,2 @@
+# wandernest-bookings
+Bookings module
