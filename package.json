@@ -1,0 +1,19 @@
+{
+  "name": "wandernest-bookings",
+  "version": "1.0.0",
+  "description": "Bookings module",
+  "main": ".eslintrc.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Team-Eowyn/wandernest-bookings.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Team-Eowyn/wandernest-bookings/issues"
+  },
+  "homepage": "https://github.com/Team-Eowyn/wandernest-bookings#readme"
+}
