@@ -10,17 +10,6 @@ mongoose.connect(url, {useUnifiedTopology: true, useNewUrlParser: true}).
     console.log('dabatabase connected!')
   })
 
-  const siteSchema = new mongoose.Schema({
-    name: String,
-    url: String
-  })
 
-  var DealSite = mongoose.model('DealSite', siteSchema);
-
-  const priceSchema = new mongoose.Schema({
-    weekday: Number,
-    weekend: Number
-  })
-
-  var Price = mongoose.model('Price', priceSchema);
+ module.exports = db;
 
