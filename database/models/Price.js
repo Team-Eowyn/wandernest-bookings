@@ -10,7 +10,7 @@ const Price = mongoose.model('Price', priceSchema);
 
 module.exports = {
   add: () => {
-    let weekday = 90 + Math.floor(Math.random() * 600);
+    let weekday = 80 + Math.floor(Math.random() * 600);
     let weekend = (weekday * 1.2).toFixed(2);
     const newPrice = new Price({
       weekday,
