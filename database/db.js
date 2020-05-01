@@ -1,15 +1,12 @@
-var mongoose = require('mongoose');
-const url = 'mongodb://localhost:27017/wandernest_bookings'
-mongoose.connect(url, {useUnifiedTopology: true, useNewUrlParser: true}).
-  catch(error => handleError(error));
+const mongoose = require('mongoose');
 
-  var db = mongoose.connection;
-  db.on('error', console.error.bind(console, 'connection error:'));
+const url = 'mongodb://localhost/wandernest_bookings';
+mongoose.connect(url, { useUnifiedTopology: true, useNewUrlParser: true })
+  .catch((error) => console.error(error));
 
-  db.once('open', () => {
-    console.log('dabatabase connected!')
-  })
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
 
-
- module.exports = db;
-
+db.once('open', () => {
+  console.log('dabatabase connected!');
+});
