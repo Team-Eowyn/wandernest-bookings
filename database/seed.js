@@ -24,29 +24,29 @@ const chooseRandomSites = () => {
 let idIndex = 1;
 
 while (idIndex < 101) {
-  const fall = (130 + Math.random() * 100).toFixed(2);
-  const winter = (70 + Math.random() * 100).toFixed(2);
-  const spring = (200 + Math.random() * 100).toFixed(2);
-  const summer = (300 + Math.random() * 200).toFixed(2);
+  const fall = (130 + Math.random() * 100);
+  const winter = (70 + Math.random() * 100);
+  const spring = (200 + Math.random() * 100);
+  const summer = (300 + Math.random() * 200);
 
   const newHotel = new Hotel({
     id: idIndex,
     name: faker.company.companyName(),
     fallPrice: {
-      weekday: fall,
-      weekend: fall * 1.5,
+      weekday: Number.parseFloat(fall).toFixed(2),
+      weekend: Number.parseFloat(fall * 1.5).toFixed(2),
     },
     winterPrice: {
-      weekday: winter,
-      weekend: winter * 1.5,
+      weekday: Number.parseFloat(winter).toFixed(2),
+      weekend: Number.parseFloat(winter * 1.5).toFixed(2),
     },
     springPrice: {
-      weekday: spring,
-      weekend: spring * 1.5,
+      weekday: Number.parseFloat(spring).toFixed(2),
+      weekend: Number.parseFloat(spring * 1.5).toFixed(2),
     },
     summerPrice: {
-      weekday: summer,
-      weekend: summer * 1.5,
+      weekday: Number.parseFloat(summer).toFixed(2),
+      weekend: Number.parseFloat(summer * 1.5).toFixed(2),
     },
     otherSites: chooseRandomSites(),
   });
