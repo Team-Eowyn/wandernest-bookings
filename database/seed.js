@@ -1,5 +1,6 @@
 const faker = require('faker');
 const Hotel = require('./Model.js');
+const db = require('./index.js');
 
 const sites = [];
 let x = 0;
@@ -26,36 +27,33 @@ while (idIndex < 101) {
   const fall = (130 + Math.random() * 100).toFixed(2);
   const winter = (70 + Math.random() * 100).toFixed(2);
   const spring = (200 + Math.random() * 100).toFixed(2);
-  const summer = (300 + Math.random() * 100).toFixed(2);
+  const summer = (300 + Math.random() * 200).toFixed(2);
 
   const newHotel = new Hotel({
     id: idIndex,
     name: faker.company.companyName(),
     fallPrice: {
       weekday: fall,
-      weekend: fall * 2,
+      weekend: fall * 1.5,
     },
     winterPrice: {
       weekday: winter,
-      weekend: winter * 2,
+      weekend: winter * 1.5,
     },
     springPrice: {
       weekday: spring,
-      weekend: spring * 2,
+      weekend: spring * 1.5,
     },
     summerPrice: {
       weekday: summer,
-      weekend: summer * 2,
+      weekend: summer * 1.5,
     },
     otherSites: chooseRandomSites(),
   });
-  // console.log(newHotel);
+
   newHotel.save((err) => {
-    console.log('do we see this');
     if (err) {
       console.error(err);
-    } else {
-      console.log('new record saved!');
     }
   });
 
