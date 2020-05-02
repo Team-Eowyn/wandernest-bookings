@@ -1,8 +1,9 @@
-const model = require('./Model.js');
+const Hotel = require('./Model.js');
+const db = require('./index.js');
 
 module.exports = {
   getOne: (params, callback) => {
-    model.Hotel.find({ id: params.id }, (err, results) => {
+    Hotel.find({ id: params }, (err, results) => {
       if (err) {
         callback(err, null);
       } else {
@@ -11,7 +12,7 @@ module.exports = {
     });
   },
   getAll: (callback) => {
-    model.Hotel.find({}, (err, results) => {
+    Hotel.find({}, (err, results) => {
       if (err) {
         callback(err, null);
       } else {
