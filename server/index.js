@@ -5,6 +5,8 @@ const controller = require('../database/Controller.js');
 const app = express();
 const port = 3002;
 
+app.use(express.static('dist'));
+
 app.get('/', (req, res) => {
   res.status(200).send("let's get this party started!");
 });
