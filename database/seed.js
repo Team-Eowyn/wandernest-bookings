@@ -23,7 +23,7 @@ const chooseRandomSites = () => {
 
 const chooseAvailability = () => {
   const availability = ['Book now! This hotel is likely to sell out soon.', '2 people have started booking this hotel', 'Lowest prices for your stay'];
-  var index = Math.floor(Math.random() * 3)
+  let index = Math.floor(Math.random() * 3);
   return availability[index];
 };
 
