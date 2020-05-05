@@ -21,6 +21,12 @@ const chooseRandomSites = () => {
   return newSites;
 };
 
+const chooseAvailability = () => {
+  const availability = ['Book now! This hotel is likely to sell out soon.', '2 people have started booking this hotel', 'Lowest prices for your stay'];
+  let index = Math.floor(Math.random() * 3);
+  return availability[index];
+};
+
 let idIndex = 1;
 
 while (idIndex < 101) {
@@ -49,6 +55,7 @@ while (idIndex < 101) {
       weekend: Number.parseFloat(summer * 1.5).toFixed(2),
     },
     otherSites: chooseRandomSites(),
+    availability: chooseAvailability(),
   });
 
   newHotel.save((err) => {

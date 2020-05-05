@@ -20,6 +20,7 @@ const hotelSchema = new mongoose.Schema({
     weekend: Number,
   },
   otherSites: Array,
+  availability: String,
 });
 const Hotel = mongoose.model('Hotel', hotelSchema);
 module.exports = Hotel;
