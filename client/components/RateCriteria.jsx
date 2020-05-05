@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import ViewDeals from './ViewDeals.jsx';
-// import ChooseDates from './ChooseDates.jsx';
+import CalendarModal from './CalendarModal.jsx';
 
 const ChooseDates = styled.div`
   display: grid;
@@ -57,7 +57,22 @@ class RateCriteria extends React.Component {
       adults: 2,
       children: 0,
       mainPrice: '$350',
+      showCalendar: false,
     };
+    this.showCalendarModal = this.showCalendarModal.bind(this);
+  }
+
+  showCalendarModal(e) {
+    e.preventDefault();
+    if (!this.state.showCalendar) {
+      this.setState({
+        showCalendar: true,
+      });
+    } else {
+      this.setState({
+        showCalendar: false,
+      });
+    }
   }
 
   render() {
@@ -65,14 +80,15 @@ class RateCriteria extends React.Component {
       <div>
         <ChooseDates>
           <Checkin>
-            <button className="rateCriteria" type="button">
-              <p className="rateCriteria">Check Out</p>
+            <button className="rateCriteria" type="button" onClick={this.showCalendarModal}>
+              <p className="rateCriteria">Check In</p>
               <p className="rateCriteria">
                 <strong>{this.state.checkinDay}, {this.state.checkinDate}
                 </strong>
               </p>
             </button>
           </Checkin>
+          <CalendarModal showCalendar={this.state.showCalendar} />
           <Checkout>
             <button className="rateCriteria" type="button">
               <p className="rateCriteria">Check Out</p>
@@ -97,7 +113,7 @@ class RateCriteria extends React.Component {
           </Guests>
         </GuestsWrapper>
         <DealsWrapper>
-          <ViewDeals mainPrice={this.state.mainPrice}/>
+          <ViewDeals mainPrice={this.state.mainPrice} />
         </DealsWrapper>
       </div>
     );
