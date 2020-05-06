@@ -10,9 +10,10 @@ const Bookings = styled.div`
   padding: 4px 16px 0px;
   grid-template: 44px 96px 234px / 1fr
   background-color: white;
-  border-style: ridge;
+  border-style: solid;
   border-color: lightgray;
   border-width: 1px;
+  font-family: Arial, Helvetica, sans-serif;
 `;
 
 const Availability = styled.p`
@@ -20,19 +21,22 @@ const Availability = styled.p`
   grid-area: 1 / 1 / span 1 / span 1;
   color: red;
   text-align: center;
+  margin: 15px
 `;
 
 const CriteriaWrapper = styled.div`
   display: grid:
   grid-area: 2 / 1 / span 1 / span 1;
-  grid-template: 44px 42px / 1fr;
+  grid-template: 44px 42px / 1fr
+  margin: 20px 10px;
 `;
 
-const DealsWrapper = styled.div`
-  display: grid:
-  grid-area: 3 / 1 / span 1 / span 1;
-  grid-template: 25px 44px 22px 50px 61px / 1fr
-`;
+// const DealsWrapper = styled.div`
+//   display: grid:
+//   grid-area: 3 / 1 / span 1 / span 1;
+//   grid-template: 25px 44px 22px 50px 61px / 1fr
+//   margin: 20px 10px;
+// `;
 
 class App extends React.Component {
   constructor(props) {
@@ -49,9 +53,6 @@ class App extends React.Component {
         <CriteriaWrapper>
           <RateCriteria />
         </CriteriaWrapper>
-        <DealsWrapper>
-          <ViewDeals />
-        </DealsWrapper>
       </Bookings>
     );
   }
