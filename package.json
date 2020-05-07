@@ -4,7 +4,7 @@
   "description": "Bookings module",
   "main": ".eslintrc.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "nodemon ./server/index.js --watch",
     "seed": "node database/seed.js",
     "build": "webpack --config webpack.config.js --watch"
@@ -36,12 +36,14 @@
     "webpack-cli": "^3.3.11"
   },
   "dependencies": {
+    "babel-jest": "^26.0.1",
     "express": "^4.17.1",
     "faker": "^4.1.0",
     "mongoose": "^5.9.11",
     "path": "^0.12.7",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-test-renderer": "^16.13.1",
     "styled-components": "^5.1.0"
   }
 }
