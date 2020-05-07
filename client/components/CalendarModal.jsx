@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import moment from 'moment';
+import LeftCalendar from './LeftCalendar.jsx';
 
 const Calendar = styled.div`
   position: absolute;
@@ -15,8 +17,8 @@ const Calendar = styled.div`
 const Wrapper = styled.div`
   display: grid;
   grid-area: 1 / 1 / span 1 / span 1;
-  height: 395px;
-  grid-template: 57px 293px 45px / 298px 299px;
+  height: 419px;
+  grid-template: 57px 317px 45px / 298px 299px;
 
 
 `;
@@ -30,10 +32,6 @@ const Header = styled.div`
   margin: 0px 15px;
   padding: 15px 0px 10px 0px;
   border-bottom: 1px solid lightgray;
-`;
-
-const HeaderFooterText = styled.p`
-  line-height: 0px;
 `;
 
 const Left = styled.div`
@@ -56,9 +54,9 @@ const Footer = styled.div`
   grid-area: 3 / 1 / span 1 / span 2;
   background-color: whitesmoke;
   color: gray;
-  margin: 0x 15px;
   padding: 16px 0px;
   border-top: 1px solid lightgray;
+  margin: 0px 15px;
 `;
 
 const Arrow = styled.div`
@@ -92,12 +90,16 @@ class CalendarModal extends React.Component {
       <Calendar>
         <Wrapper>
           <Header>
-            <HeaderFooterText>Select a date to continue</HeaderFooterText>
+            <span>Select a date to continue</span>
           </Header>
-          <Left>Left</Left>
-          <Right>Right</Right>
+          <Left>
+            <LeftCalendar />
+          </Left>
+          <Right>
+            <RightCalendar />
+          </Right>
           <Footer>
-            <HeaderFooterText>Average daily rates: $240-$350</HeaderFooterText>
+            <span>Average daily rates: $240-$350</span>
           </Footer>
         </Wrapper>
       </Calendar>
