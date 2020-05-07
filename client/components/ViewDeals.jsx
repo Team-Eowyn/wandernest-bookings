@@ -49,7 +49,7 @@ const ViewDealWrapper = styled.div`
 
 const ViewDealButton = styled.button`
   grid-area: 1 / 1 / span 1 / span 1;
-  background-color: #ffcc00;
+  background-color: #f2b203;
   color: black;
   text-align: center;
   padding: 12px 5px 12px 5px;
