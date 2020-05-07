@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import RateCriteria from './RateCriteria.jsx';
 
-const Bookings = styled.div`
+const Wrapper = styled.div`
   display: grid;
   width: 395px;
   height: 430px
@@ -40,12 +40,12 @@ class App extends React.Component {
 
   render() {
     return (
-      <Bookings>
+      <Wrapper>
         <Availability>{this.state.availability}</Availability>
         <CriteriaWrapper>
           <RateCriteria />
         </CriteriaWrapper>
-      </Bookings>
+      </Wrapper>
     );
   }
 }
