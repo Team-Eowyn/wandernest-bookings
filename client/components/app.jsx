@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import RateCriteria from './RateCriteria.jsx';
-import ViewDeals from './ViewDeals.jsx';
 
 const Bookings = styled.div`
   display: grid;
@@ -30,13 +29,6 @@ const CriteriaWrapper = styled.div`
   grid-template: 44px 42px / 1fr
   margin: 20px 10px;
 `;
-
-// const DealsWrapper = styled.div`
-//   display: grid:
-//   grid-area: 3 / 1 / span 1 / span 1;
-//   grid-template: 25px 44px 22px 50px 61px / 1fr
-//   margin: 20px 10px;
-// `;
 
 class App extends React.Component {
   constructor(props) {
