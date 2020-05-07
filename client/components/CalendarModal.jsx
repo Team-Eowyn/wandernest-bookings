@@ -7,7 +7,7 @@ const Calendar = styled.div`
   z-index: 5;
   height: 419px;
   width: 597px;
-  background-color: green;
+  background-color: whitesmoke;
   margin-left: 200px;
   grid-template: 1fr / 1fr
 `;
@@ -29,10 +29,11 @@ const Header = styled.div`
   background-color: whitesmoke;
   margin: 0px 15px;
   padding: 15px 0px 10px 0px;
+  border-bottom: 1px solid lightgray;
 `;
 
-const HeaderText = styled.p`
-  line-height: 1px;
+const HeaderFooterText = styled.p`
+  line-height: 0px;
 `;
 
 const Left = styled.div`
@@ -47,6 +48,7 @@ const Left = styled.div`
 
 const Right = styled(Left)`
   grid-area: 2 / 2 / span 1 / span 1;
+  border-left: 1px solid lightgray;
 `;
 
 const Footer = styled.div`
@@ -56,18 +58,19 @@ const Footer = styled.div`
   color: gray;
   margin: 0x 15px;
   padding: 16px 0px;
+  border-top: 1px solid lightgray;
 `;
 
 const Arrow = styled.div`
   position: absolute;
-  z-index: 7;
+  z-index: 8;
   width: 0;
   height: 0;
   border-top: 15px solid transparent;
   border-right: 30px solid whitesmoke;
   border-bottom: 15px solid transparent;
-  margin-left: 170px;
-  margin-top: 15px;
+  margin-left: 175px;
+  margin-top: 12px;
 `;
 
 class CalendarModal extends React.Component {
@@ -84,17 +87,21 @@ class CalendarModal extends React.Component {
       return null;
     }
     return (
+    <div>
+      <Arrow />
       <Calendar>
         <Wrapper>
-          <Arrow />
           <Header>
-            <HeaderText>Select a date to continue</HeaderText>
+            <HeaderFooterText>Select a date to continue</HeaderFooterText>
           </Header>
           <Left>Left</Left>
           <Right>Right</Right>
-          <Footer>Average daily rates: $240-$400</Footer>
+          <Footer>
+            <HeaderFooterText>Average daily rates: $240-$350</HeaderFooterText>
+          </Footer>
         </Wrapper>
       </Calendar>
+    </div>
     );
   }
 }
