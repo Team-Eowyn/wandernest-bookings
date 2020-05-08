@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import RateCriteria from './RateCriteria.jsx';
 
 const Wrapper = styled.div`
@@ -34,9 +35,34 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      availability: 'Book now! This hotel is likely to sell out soon!',
+      availability: '',
     };
+    this.updateAvailability = this.updateAvailability.bind(this);
   }
+
+  componentDidMount() {
+    const url = new URL(window.location.href);
+    const getID = url.searchParams.get('id');
+
+    axios.get(`api/bookings/${getID}`)
+      .then((response) => {
+        const availability = response.data[0].availability;
+        this.updateAvailability(availability);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+
+      });
+  }
+
+  updateAvailability(string) {
+    this.setState({
+      availability: string,
+    });
+  }
+
 
   render() {
     return (
