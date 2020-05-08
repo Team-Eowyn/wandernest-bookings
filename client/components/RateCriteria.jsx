@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import ViewDeals from './ViewDeals.jsx';
 import CalendarModal from './CalendarModal.jsx';
 import ChooseDates from './ChooseDates.jsx';
@@ -16,17 +17,41 @@ class RateCriteria extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      checkinDay: 'Mon',
-      checkinDate: '6/10/20',
-      checkoutDay: 'Wed',
-      checkoutDate: '6/12/20',
+      checkinDay: '-',
+      checkinDate: '-/-/-',
+      checkoutDay: '-',
+      checkoutDate: '-/-/-',
       rooms: 1,
       adults: 2,
       children: 0,
-      mainPrice: '$350',
+      mainPrice: '0',
       showCalendar: false,
     };
     this.showCalendarModal = this.showCalendarModal.bind(this);
+    this.updateMainPrice = this.updateMainPrice.bind(this);
+  }
+
+  componentDidMount() {
+    const url = new URL(window.location.href);
+    const getID = url.searchParams.get('id');
+
+    axios.get(`api/bookings/${getID}`)
+      .then((response) => {
+        const mainPrice = response.data[0].springPrice.weekday;
+        this.updateMainPrice(`$${mainPrice}`);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+
+      });
+  }
+
+  updateMainPrice(newPrice) {
+    this.setState({
+      mainPrice: newPrice,
+    });
   }
 
   showCalendarModal(e) {

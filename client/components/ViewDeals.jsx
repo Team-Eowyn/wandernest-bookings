@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 
 const LowestPrice = styled.p`
   display: grid;
@@ -89,7 +90,41 @@ class ViewDeals extends React.Component {
     this.state = {
       otherSites: [],
     };
+    this.updateOtherSites = this.updateOtherSites.bind(this);
+    this.getOtherSite = this.getOtherSite.bind(this);
   }
+
+  componentDidMount() {
+    const url = new URL(window.location.href);
+    const getID = url.searchParams.get('id');
+
+    axios.get(`api/bookings/${getID}`)
+      .then((response) => {
+        const otherSites = response.data[0].otherSites;
+        this.updateOtherSites(otherSites);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+
+      });
+  }
+
+  getOtherSite(n) {
+    const site = this.state.otherSites[n];
+    if (!site) {
+      return '';
+    }
+    return `${site}........................`;
+  }
+
+  updateOtherSites(newSites) {
+    this.setState({
+      otherSites: newSites,
+    });
+  }
+
 
   render() {
     return (
@@ -104,10 +139,10 @@ class ViewDeals extends React.Component {
           <ViewDealButton>View Deal</ViewDealButton>
         </ViewDealWrapper>
         <OtherOffers>
-          <Offer1>first site...................</Offer1>
-          <Offer2>second site..................</Offer2>
-          <Offer3>third site...................</Offer3>
-          <Offer4>fourth site....................</Offer4>
+          <Offer1>{this.getOtherSite(0)}</Offer1>
+          <Offer2>{this.getOtherSite(1)}</Offer2>
+          <Offer3>{this.getOtherSite(2)}</Offer3>
+          <Offer4>{this.getOtherSite(3)}</Offer4>
         </OtherOffers>
       </div>
     );
