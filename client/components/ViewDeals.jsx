@@ -91,6 +91,16 @@ class ViewDeals extends React.Component {
     };
   }
 
+  componentDidMount() {
+
+  }
+
+  updateOtherSites(newSites) {
+    this.setState({
+      otherSites: newSites,
+    });
+  }
+
   render() {
     return (
       <div>
