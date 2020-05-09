@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
 import LeftCalendar from './LeftCalendar.jsx';
+import RightCalendar from './RightCalendar.jsx';
 
 const Calendar = styled.div`
   position: absolute;
@@ -75,8 +76,10 @@ class CalendarModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      month1: 'May',
-      month2: 'June',
+      leftMonth: moment().format('MMMM'),
+      rightMonth: moment().add(1, 'month').format('MMMM'),
+      leftFirstDay: moment('2020-05-01'),
+      rightFirstDay: moment('2020-06-01'),
     };
   }
 
@@ -93,10 +96,16 @@ class CalendarModal extends React.Component {
             <span>Select a date to continue</span>
           </Header>
           <Left>
-            <LeftCalendar />
+            <LeftCalendar
+              month={this.state.leftMonth}
+              firstDay={this.state.leftFirstDay}
+            />
           </Left>
           <Right>
-            <RightCalendar />
+            <RightCalendar
+              month={this.state.rightMonth}
+              firstDay={this.state.rightFirstDay}
+            />
           </Right>
           <Footer>
             <span>Average daily rates: $240-$350</span>

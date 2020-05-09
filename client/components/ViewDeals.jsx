@@ -116,7 +116,7 @@ class ViewDeals extends React.Component {
     if (!site) {
       return '';
     }
-    return `${site}........................`;
+    return `${site}........................N/A`;
   }
 
   updateOtherSites(newSites) {
