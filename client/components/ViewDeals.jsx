@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import { FaKiwiBird } from 'react-icons/fa';
 
 const LowestPrice = styled.p`
   display: grid;
@@ -17,19 +18,27 @@ const MainOffer = styled.div`
   display: grid;
   grid-area: 2 / 1 / span 1 / span 1;
   height: 44px;
-  grid-template: 1fr / 3fr 1fr;
+  grid-template: 25px / 40px 260px 75px;
   color: black;
   font-size: 20px;
   margin: 10px;
 `;
+
+const MainOfferIcon = styled.div`
+  display: grid:
+  grid-area: 1 / 1 / span 1 / span 1;
+  padding-top: 20px;
+  padding-left: 5px;
+`;
+
 const MainOfferSite = styled.p`
   display: grid;
-  grid-area: 1 / 1 / span 1 / span 1;
+  grid-area: 1 / 2 / span 1 / span 1;
 `;
 
 const MainOfferPrice = styled.p`
   display: grid;
-  grid-area: 1 / 2 / span 1 / span 1;
+  grid-area: 1 / 3 / span 1 / span 1;
 `;
 
 const Cancellation = styled.div`
@@ -116,7 +125,7 @@ class ViewDeals extends React.Component {
     if (!site) {
       return '';
     }
-    return `${site}........................`;
+    return `${site}........................N/A`;
   }
 
   updateOtherSites(newSites) {
@@ -131,6 +140,7 @@ class ViewDeals extends React.Component {
       <div>
         <LowestPrice>Lowest price we found</LowestPrice>
         <MainOffer>
+          <MainOfferIcon><FaKiwiBird /></MainOfferIcon>
           <MainOfferSite>WanderNest</MainOfferSite>
           <MainOfferPrice>{this.props.mainPrice}</MainOfferPrice>
         </MainOffer>

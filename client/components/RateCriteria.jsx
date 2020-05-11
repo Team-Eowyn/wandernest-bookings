@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import moment from 'moment';
 import ViewDeals from './ViewDeals.jsx';
 import CalendarModal from './CalendarModal.jsx';
 import ChooseDates from './ChooseDates.jsx';
@@ -17,10 +18,10 @@ class RateCriteria extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      checkinDay: '-',
-      checkinDate: '-/-/-',
-      checkoutDay: '-',
-      checkoutDate: '-/-/-',
+      checkinDay: moment().format('ddd'),
+      checkinDate: `${moment().format('M')}/${moment().format('D')}/${moment().format('YY')}`,
+      checkoutDay: moment().add(1, 'day').format('ddd'),
+      checkoutDate: `${moment().add(1, 'day').format('M')}/${moment().add(1, 'day').format('D')}/${moment().add(1, 'day').format('YY')}`,
       rooms: 1,
       adults: 2,
       children: 0,

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
 import LeftCalendar from './LeftCalendar.jsx';
+import RightCalendar from './RightCalendar.jsx';
 
 const Calendar = styled.div`
   position: absolute;
@@ -75,9 +76,27 @@ class CalendarModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      month1: 'May',
-      month2: 'June',
+      year: '',
+      month: '',
+      day: '',
     };
+    this.getDateInfo = this.getDateInfo.bind(this);
+  }
+
+  componentDidMount() {
+    this.getDateInfo();
+  }
+
+  getDateInfo() {
+    const year = moment().format('YYYY');
+    const month = moment().format('MM');
+    const day = moment().format('DD');
+
+    this.setState({
+      year: `${year}`,
+      month: `${month}`,
+      day: `${day}`,
+    })
   }
 
   render() {
@@ -93,10 +112,22 @@ class CalendarModal extends React.Component {
             <span>Select a date to continue</span>
           </Header>
           <Left>
-            <LeftCalendar />
+            <LeftCalendar
+              month={this.state.month}
+              year={this.state.year}
+              day={this.state.day}
+              // month={this.state.leftMonth}
+              // firstDay={this.state.leftFirstDay}
+            />
           </Left>
           <Right>
-            <RightCalendar />
+            <RightCalendar
+              lastMonth={this.state.month}
+              year={this.state.year}
+              day={this.state.day}
+              // month={this.state.rightMonth}
+              // firstDay={this.state.rightFirstDay}
+            />
           </Right>
           <Footer>
             <span>Average daily rates: $240-$350</span>

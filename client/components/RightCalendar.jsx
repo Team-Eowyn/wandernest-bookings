@@ -39,15 +39,20 @@ const WeekDay = styled(Day)`
   font-size: 10px;
 `;
 
-class LeftCalendar extends React.Component {
+class RightCalendar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dateObject: `${this.props.year}-${this.props.month}-${this.props.day}`,
-      rowStart: 1,
+      month: '',
+      dateObject: `${this.props.year}-${this.props.lastMonth}-${this.props.day}`,
     };
-    this.makeRow = this.makeRow.bind(this);
+    this.updateRightCalendar = this.updateRightCalendar.bind(this);
     this.getBlanks = this.getBlanks.bind(this);
+    this.makeRow = this.makeRow.bind(this);
+  }
+
+  componentDidMount() {
+    this.updateRightCalendar();
   }
 
   getBlanks() {
@@ -59,6 +64,16 @@ class LeftCalendar extends React.Component {
     return blanks;
   }
 
+  updateRightCalendar() {
+    const thisMonth = `0${Number(this.props.lastMonth) + 1}`;
+
+    this.setState({
+      month: thisMonth,
+      dateObject: `${this.props.year}-${thisMonth}-${this.props.day}`,
+    });
+  }
+
+
   makeRow(start) {
     const days31 = ['01', '03', '05', '07', '08', '10', '12'];
     const days30 = ['04', '06', '09', '11'];
@@ -66,9 +81,9 @@ class LeftCalendar extends React.Component {
     let daysThisMonth;
     let remaining;
 
-    if (days31.includes(this.props.month)) {
+    if (days31.includes(this.state.month)) {
       daysThisMonth = 31;
-    } else if (days30.includes(this.props.month)) {
+    } else if (days30.includes(this.state.month)) {
       daysThisMonth = 30;
     } else {
       daysThisMonth = 28;
@@ -126,4 +141,4 @@ class LeftCalendar extends React.Component {
   }
 }
 
-export default LeftCalendar;
+export default RightCalendar;
