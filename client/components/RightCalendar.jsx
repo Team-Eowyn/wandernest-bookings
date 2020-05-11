@@ -22,9 +22,19 @@ const CalTable = styled.table`
   grid-area: 2 / 1 / span 1 / span 1;
 `;
 
-const WeekDay = styled.th`
+const Week = styled.tr`
+  height: 36px;
+`;
+
+const Day = styled.td`
   font-weight: normal;
   width: 34px;
+  font-size: 11px;
+  height: 36px;
+  text-align: center;
+`;
+
+const WeekDay = styled(Day)`
   text-transform: uppercase;
   font-size: 10px;
 `;
@@ -33,33 +43,97 @@ class RightCalendar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      month: '',
+      dateObject: `${this.props.year}-${this.props.lastMonth}-${this.props.day}`,
     };
-    this.firstDayOfMonth = this.firstDayOfMonth.bind(this);
-    this.findMonth = this.findMonth.bind(this);
+    this.updateRightCalendar = this.updateRightCalendar.bind(this);
+    this.getBlanks = this.getBlanks.bind(this);
+    this.makeRow = this.makeRow.bind(this);
   }
 
-  firstDayOfMonth() {
-    return moment(this.props.firstDay).startOf('month').format('d');
+  componentDidMount() {
+    this.updateRightCalendar();
   }
 
-  findMonth() {
-    return moment().month(this.props.month).format('MMMM');
+  getBlanks() {
+    const firstDayOfMonth = moment(this.state.dateObject).startOf('month').format('d');
+    const blanks = [];
+    while (blanks.length < firstDayOfMonth) {
+      blanks.push('');
+    }
+    return blanks;
+  }
+
+  updateRightCalendar() {
+    const thisMonth = `0${Number(this.props.lastMonth) + 1}`;
+
+    this.setState({
+      month: thisMonth,
+      dateObject: `${this.props.year}-${thisMonth}-${this.props.day}`,
+    });
+  }
+
+
+  makeRow(start) {
+    const days31 = ['01', '03', '05', '07', '08', '10', '12'];
+    const days30 = ['04', '06', '09', '11'];
+    const week = [];
+    let daysThisMonth;
+    let remaining;
+
+    if (days31.includes(this.state.month)) {
+      daysThisMonth = 31;
+    } else if (days30.includes(this.state.month)) {
+      daysThisMonth = 30;
+    } else {
+      daysThisMonth = 28;
+    }
+
+    if (start === 1) {
+      remaining = 7 - moment(this.state.dateObject).startOf('month').format('d');
+    } else if (daysThisMonth - start < 7) {
+      remaining = daysThisMonth - start + 1;
+    } else {
+      remaining = 7;
+    }
+    let dateInWeek = start;
+    while (week.length < remaining) {
+      week.push(dateInWeek);
+      dateInWeek++;
+    }
+    return week;
   }
 
   render() {
     return (
       <div>
         <Wrapper>
-          <Header>{this.findMonth()} 2020</Header>
+          <Header>{moment(this.state.dateObject).format('MMMM')} 2020</Header>
           <CalTable>
-            <thead>
-              <tr>
-                {moment.weekdaysShort().map((day) => {
-                  return <WeekDay key={day}>{ day }</WeekDay>;
-                })}
-              </tr>
-              <tr>{this.firstDayOfMonth()}</tr>
-            </thead>
+            <Week>
+              {moment.weekdaysShort().map((day) => {
+                return <WeekDay key={day}>{ day }</WeekDay>;
+              })}
+            </Week>
+            <Week>
+              {this.getBlanks().map((blank) => <Day>{blank}</Day>)}
+              {this.makeRow(1).map((day) => <Day>{ day }</Day>)}
+            </Week>
+            <Week>
+              {this.makeRow(3).map((day) => <Day>{ day }</Day>)}
+            </Week>
+            <Week>
+              {this.makeRow(10).map((day) => <Day>{ day }</Day>)}
+            </Week>
+            <Week>
+              {this.makeRow(17).map((day) => <Day>{ day }</Day>)}
+            </Week>
+            <Week>
+              {this.makeRow(24).map((day) => <Day>{ day }</Day>)}
+            </Week>
+            <Week>
+              {this.makeRow(31).map((day) => <Day>{ day }</Day>)}
+            </Week>
           </CalTable>
         </Wrapper>
       </div>

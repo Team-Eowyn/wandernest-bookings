@@ -76,11 +76,27 @@ class CalendarModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      leftMonth: moment().format('MMMM'),
-      rightMonth: moment().add(1, 'month').format('MMMM'),
-      leftFirstDay: moment('2020-05-01'),
-      rightFirstDay: moment('2020-06-01'),
+      year: '',
+      month: '',
+      day: '',
     };
+    this.getDateInfo = this.getDateInfo.bind(this);
+  }
+
+  componentDidMount() {
+    this.getDateInfo();
+  }
+
+  getDateInfo() {
+    const year = moment().format('YYYY');
+    const month = moment().format('MM');
+    const day = moment().format('DD');
+
+    this.setState({
+      year: `${year}`,
+      month: `${month}`,
+      day: `${day}`,
+    })
   }
 
   render() {
@@ -97,14 +113,20 @@ class CalendarModal extends React.Component {
           </Header>
           <Left>
             <LeftCalendar
-              month={this.state.leftMonth}
-              firstDay={this.state.leftFirstDay}
+              month={this.state.month}
+              year={this.state.year}
+              day={this.state.day}
+              // month={this.state.leftMonth}
+              // firstDay={this.state.leftFirstDay}
             />
           </Left>
           <Right>
             <RightCalendar
-              month={this.state.rightMonth}
-              firstDay={this.state.rightFirstDay}
+              lastMonth={this.state.month}
+              year={this.state.year}
+              day={this.state.day}
+              // month={this.state.rightMonth}
+              // firstDay={this.state.rightFirstDay}
             />
           </Right>
           <Footer>
