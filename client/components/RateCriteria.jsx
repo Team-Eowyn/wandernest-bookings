@@ -18,6 +18,9 @@ class RateCriteria extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      month: moment().format('MM'),
+      day: moment().format('DD'),
+      year: moment().format('YYYY'),
       checkinDay: moment().format('ddd'),
       checkinDate: `${moment().format('M')}/${moment().format('D')}/${moment().format('YY')}`,
       checkoutDay: moment().add(1, 'day').format('ddd'),
@@ -30,6 +33,8 @@ class RateCriteria extends React.Component {
     };
     this.showCalendarModal = this.showCalendarModal.bind(this);
     this.updateMainPrice = this.updateMainPrice.bind(this);
+    this.handleNextClick = this.handleNextClick.bind(this);
+    this.handlePrevClick = this.handlePrevClick.bind(this);
   }
 
   componentDidMount() {
@@ -47,6 +52,22 @@ class RateCriteria extends React.Component {
       .finally(() => {
 
       });
+  }
+
+  handleNextClick(e) {
+    e.preventDefault();
+    let newMonth = Number(this.state.month) + 1;
+    this.setState({
+      month: `0${newMonth}`,
+    });
+  }
+
+  handlePrevClick(e) {
+    e.preventDefault();
+    let newMonth = Number(this.state.month) - 1;
+    this.setState({
+      month: `0${newMonth}`,
+    })
   }
 
   updateMainPrice(newPrice) {
@@ -71,7 +92,14 @@ class RateCriteria extends React.Component {
   render() {
     return (
       <div>
-        <CalendarModal showCalendar={this.state.showCalendar} />
+        <CalendarModal
+          showCalendar={this.state.showCalendar}
+          day={this.state.day}
+          month={this.state.month}
+          year={this.state.year}
+          handleNextClick={this.handleNextClick}
+          handlePrevClick={this.handlePrevClick}
+        />
         <ChooseDates
           checkinDate={this.state.checkinDate}
           checkinDay={this.state.checkinDay}

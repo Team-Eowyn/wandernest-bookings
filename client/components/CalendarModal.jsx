@@ -72,38 +72,11 @@ const Arrow = styled.div`
   margin-top: 12px;
 `;
 
-class CalendarModal extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      year: '',
-      month: '',
-      day: '',
-    };
-    this.getDateInfo = this.getDateInfo.bind(this);
+const CalendarModal = (props) => {
+  if (!props.showCalendar) {
+    return null;
   }
-
-  componentDidMount() {
-    this.getDateInfo();
-  }
-
-  getDateInfo() {
-    const year = moment().format('YYYY');
-    const month = moment().format('MM');
-    const day = moment().format('DD');
-
-    this.setState({
-      year: `${year}`,
-      month: `${month}`,
-      day: `${day}`,
-    })
-  }
-
-  render() {
-    if (!this.props.showCalendar) {
-      return null;
-    }
-    return (
+  return (
     <div>
       <Arrow />
       <Calendar>
@@ -113,20 +86,18 @@ class CalendarModal extends React.Component {
           </Header>
           <Left>
             <LeftCalendar
-              month={this.state.month}
-              year={this.state.year}
-              day={this.state.day}
-              // month={this.state.leftMonth}
-              // firstDay={this.state.leftFirstDay}
+              month={props.month}
+              year={props.year}
+              day={props.day}
+              handlePrevClick={props.handlePrevClick}
             />
           </Left>
           <Right>
             <RightCalendar
-              lastMonth={this.state.month}
-              year={this.state.year}
-              day={this.state.day}
-              // month={this.state.rightMonth}
-              // firstDay={this.state.rightFirstDay}
+              lastMonth={props.month}
+              year={props.year}
+              day={props.day}
+              handleNextClick={props.handleNextClick}
             />
           </Right>
           <Footer>
@@ -135,8 +106,7 @@ class CalendarModal extends React.Component {
         </Wrapper>
       </Calendar>
     </div>
-    );
-  }
-}
+  );
+};
 
 export default CalendarModal;
