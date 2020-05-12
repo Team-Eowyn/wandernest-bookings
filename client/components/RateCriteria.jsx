@@ -30,11 +30,13 @@ class RateCriteria extends React.Component {
       children: 0,
       mainPrice: '0',
       showCalendar: false,
+      checkedIn: false,
     };
     this.showCalendarModal = this.showCalendarModal.bind(this);
     this.updateMainPrice = this.updateMainPrice.bind(this);
     this.handleNextClick = this.handleNextClick.bind(this);
     this.handlePrevClick = this.handlePrevClick.bind(this);
+    this.handleDateClick = this.handleDateClick.bind(this);
   }
 
   componentDidMount() {
@@ -54,6 +56,39 @@ class RateCriteria extends React.Component {
       });
   }
 
+  handleDateClick(e, clickDay, clickMonth) {
+    e.preventDefault();
+    const strDay = clickDay.toString();
+    const newDate = strDay.length === 1 ? `0${strDay}` : `${strDay}`;
+    const dateObject = `2020-${clickMonth}-${newDate}`;
+    const nextDay = (clickDay + 1).toString();
+    const nextDayObject = `2020-${clickMonth}-${nextDay}`;
+
+    if (!this.state.checkedIn) {
+      this.setState({
+        checkinDay: moment(dateObject).format('ddd'),
+        checkinDate: `${moment(dateObject).format('M')}/${moment(dateObject).format('D')}/${moment(dateObject).format('YY')}`,
+        checkoutDay: moment(nextDayObject).format('ddd'),
+        checkoutDate:  `${moment(nextDayObject).format('M')}/${moment(nextDayObject).format('D')}/${moment(nextDayObject).format('YY')}`,
+      });
+      this.state.checkedIn = true;
+    } else {
+      const checkoutMonth = Number(clickMonth);
+      const checkedInArray = this.state.checkinDate.split('/');
+      const monthNum = Number(checkedInArray[0]);
+      const dayNum = Number(checkedInArray[1]);
+      // allow only dates after checkin to be clicked:
+      if ((checkoutMonth === monthNum && clickDay > dayNum) || checkoutMonth > monthNum) {
+        this.setState({
+          checkoutDay: moment(dateObject).format('ddd'),
+          checkoutDate: `${moment(dateObject).format('M')}/${moment(dateObject).format('D')}/${moment(dateObject).format('YY')}`,
+        });
+
+        this.state.checkedIn = false;
+      }
+    }
+  }
+
   handleNextClick(e) {
     e.preventDefault();
     let newMonth = Number(this.state.month) + 1;
@@ -67,7 +102,7 @@ class RateCriteria extends React.Component {
     let newMonth = Number(this.state.month) - 1;
     this.setState({
       month: `0${newMonth}`,
-    })
+    });
   }
 
   updateMainPrice(newPrice) {
@@ -99,6 +134,8 @@ class RateCriteria extends React.Component {
           year={this.state.year}
           handleNextClick={this.handleNextClick}
           handlePrevClick={this.handlePrevClick}
+          handleDateClick={this.handleDateClick}
+          checkedIn={this.state.checkedIn}
         />
         <ChooseDates
           checkinDate={this.state.checkinDate}

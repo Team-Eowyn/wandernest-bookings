@@ -44,9 +44,17 @@ const Day = styled.td`
   font-size: 11px;
   height: 36px;
   text-align: center;
+  &:hover {
+    background-color: darkturquoise;
+    color: white;
+  }
 `;
 
-const WeekDay = styled(Day)`
+const WeekDay = styled.td`
+  height: 36px;
+  text-align: center;
+  font-weight: normal;
+  width: 34px;
   text-transform: uppercase;
   font-size: 10px;
 `;
@@ -124,10 +132,11 @@ class RightCalendar extends React.Component {
           <Header>
             <MonthTitle>{moment(`${this.props.year}-${this.getCurrentMonth()}-${this.props.day}`).format('MMMM')} 2020</MonthTitle>
             <NextButton>
-              <button type="button" className="next" onClick={(e) => {this.props.handleNextClick(e)}}>{'>'} </button>
+              <button type="button" className="next" onClick={this.props.handleNextClick}>{'>'} </button>
             </NextButton>
           </Header>
           <CalTable>
+
             <Week>
               {moment.weekdaysShort().map((day) => {
                 return <WeekDay key={day}>{ day }</WeekDay>;
@@ -137,7 +146,7 @@ class RightCalendar extends React.Component {
               return (
                 <Week>
                   {week.map((day) => {
-                    return <Day>{ day }</Day>;
+                    return <Day onClick={(e) => { this.props.handleDateClick(e, day, this.getCurrentMonth()); }}>{ day }</Day>;
                   })}
                 </Week>
               );
