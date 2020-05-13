@@ -44,9 +44,17 @@ const Day = styled.td`
   font-size: 11px;
   height: 36px;
   text-align: center;
+  &:hover {
+    background-color: darkturquoise;
+    color: white;
+  }
 `;
 
-const WeekDay = styled(Day)`
+const WeekDay = styled.td`
+  height: 36px;
+  text-align: center;
+  font-weight: normal;
+  width: 34px;
   text-transform: uppercase;
   font-size: 10px;
 `;
@@ -54,7 +62,7 @@ const WeekDay = styled(Day)`
 class LeftCalendar extends React.Component {
   constructor(props) {
     super(props);
- 
+
     this.makeRows = this.makeRows.bind(this);
     this.getBlanks = this.getBlanks.bind(this);
   }
@@ -131,7 +139,7 @@ class LeftCalendar extends React.Component {
               return (
                 <Week>
                   {week.map((day) => {
-                    return <Day>{ day }</Day>;
+                    return <Day onClick={(e) => { this.props.handleDateClick(e, day, this.props.month); }}>{ day }</Day>;
                   })}
                 </Week>
               );

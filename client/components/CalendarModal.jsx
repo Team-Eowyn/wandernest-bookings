@@ -1,8 +1,8 @@
 import React from 'react';
-import styled from 'styled-components';
-import moment from 'moment';
+import styled, { css } from 'styled-components';
 import LeftCalendar from './LeftCalendar.jsx';
 import RightCalendar from './RightCalendar.jsx';
+
 
 const Calendar = styled.div`
   position: absolute;
@@ -11,8 +11,8 @@ const Calendar = styled.div`
   height: 419px;
   width: 597px;
   background-color: whitesmoke;
-  margin-left: 200px;
-  grid-template: 1fr / 1fr
+  margin-left: 400px;
+  grid-template: 1fr / 1fr;
 `;
 
 const Wrapper = styled.div`
@@ -68,7 +68,7 @@ const Arrow = styled.div`
   border-top: 15px solid transparent;
   border-right: 30px solid whitesmoke;
   border-bottom: 15px solid transparent;
-  margin-left: 175px;
+  margin-left: 375px;
   margin-top: 12px;
 `;
 
@@ -90,6 +90,7 @@ const CalendarModal = (props) => {
               year={props.year}
               day={props.day}
               handlePrevClick={props.handlePrevClick}
+              handleDateClick={props.handleDateClick}
             />
           </Left>
           <Right>
@@ -98,6 +99,7 @@ const CalendarModal = (props) => {
               year={props.year}
               day={props.day}
               handleNextClick={props.handleNextClick}
+              handleDateClick={props.handleDateClick}
             />
           </Right>
           <Footer>
