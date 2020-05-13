@@ -6,6 +6,7 @@ import ViewDeals from './ViewDeals.jsx';
 import CalendarModal from './CalendarModal.jsx';
 import ChooseDates from './ChooseDates.jsx';
 import Guests from './Guests.jsx';
+import GuestsModal from './GuestsModal.jsx';
 
 const DealsWrapper = styled.div`
   display: grid:
@@ -30,6 +31,7 @@ class RateCriteria extends React.Component {
       children: 0,
       mainPrice: '0',
       showCalendar: false,
+      showGuests: false,
       checkedIn: false,
     };
     this.showCalendarModal = this.showCalendarModal.bind(this);
@@ -37,6 +39,13 @@ class RateCriteria extends React.Component {
     this.handleNextClick = this.handleNextClick.bind(this);
     this.handlePrevClick = this.handlePrevClick.bind(this);
     this.handleDateClick = this.handleDateClick.bind(this);
+    this.showGuestsModal = this.showGuestsModal.bind(this);
+    this.decreaseRooms = this.decreaseRooms.bind(this);
+    this.increaseRooms = this.increaseRooms.bind(this);
+    this.decreaseAdults = this.decreaseAdults.bind(this);
+    this.increaseAdults = this.increaseAdults.bind(this);
+    this.decreaseChildren = this.decreaseChildren.bind(this);
+    this.increaseChildren = this.increaseChildren.bind(this);
   }
 
   componentDidMount() {
@@ -89,6 +98,20 @@ class RateCriteria extends React.Component {
     }
   }
 
+  showGuestsModal(e) {
+    e.preventDefault();
+    if (!this.state.showGuests) {
+      this.setState({
+        showCalendar: false,
+        showGuests: true,
+      });
+    } else {
+      this.setState({
+        showGuests: false,
+      });
+    }
+  }
+
   handleNextClick(e) {
     e.preventDefault();
     let newMonth = Number(this.state.month) + 1;
@@ -115,6 +138,7 @@ class RateCriteria extends React.Component {
     e.preventDefault();
     if (!this.state.showCalendar) {
       this.setState({
+        showGuests: false,
         showCalendar: true,
       });
     } else {
@@ -124,9 +148,82 @@ class RateCriteria extends React.Component {
     }
   }
 
+  decreaseRooms(e) {
+    e.preventDefault();
+    if (this.state.rooms > 1) {
+      let current = this.state.rooms;
+      this.setState({
+        rooms: current - 1,
+      });
+    }
+  }
+
+  increaseRooms(e) {
+    e.preventDefault();
+    if (this.state.rooms < 10) {
+      let current = this.state.rooms;
+      this.setState({
+        rooms: current + 1,
+      });
+    }
+  }
+
+  decreaseAdults(e) {
+    e.preventDefault();
+    if (this.state.adults > 1) {
+      let current = this.state.adults;
+      this.setState({
+        adults: current - 1,
+      });
+    }
+  }
+
+  increaseAdults(e) {
+    e.preventDefault();
+    if (this.state.adults < 15) {
+      let current = this.state.adults;
+      this.setState({
+        adults: current + 1,
+      });
+    }
+  }
+
+  decreaseChildren(e) {
+    e.preventDefault();
+    if (this.state.children > 0) {
+      let current = this.state.children;
+      this.setState({
+        children: current - 1,
+      });
+    }
+  }
+
+  increaseChildren(e) {
+    e.preventDefault();
+    if (this.state.children < 10) {
+      let current = this.state.children;
+      this.setState({
+        children: current + 1,
+      });
+    }
+  }
+
   render() {
     return (
       <div>
+        <GuestsModal
+          rooms={this.state.rooms}
+          adults={this.state.adults}
+          children={this.state.children}
+          showGuests={this.state.showGuests}
+          showGuestsModal={this.showGuestsModal}
+          decreaseRooms={this.decreaseRooms}
+          increaseRooms={this.increaseRooms}
+          decreaseAdults={this.decreaseAdults}
+          increaseAdults={this.increaseAdults}
+          decreaseChildren={this.decreaseChildren}
+          increaseChildren={this.increaseChildren}
+        />
         <CalendarModal
           showCalendar={this.state.showCalendar}
           day={this.state.day}
@@ -148,6 +245,7 @@ class RateCriteria extends React.Component {
           rooms={this.state.rooms}
           adults={this.state.adults}
           children={this.state.children}
+          showGuestsModal={this.showGuestsModal}
         />
         <DealsWrapper>
           <ViewDeals mainPrice={this.state.mainPrice} />

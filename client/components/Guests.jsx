@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { FaUserFriends } from 'react-icons/fa';
 
+
 const GuestsButton = styled.button`
   height: 44px;
   width: 375px;
@@ -44,7 +45,7 @@ const GuestSelection = styled.span`
 
 const Guests = (props) => (
   <div>
-    <GuestsButton>
+    <GuestsButton onClick={props.showGuestsModal}>
       <ButtonWrapper>
         <CalIcon><FaUserFriends /></CalIcon>
         <Text>Guests</Text>
