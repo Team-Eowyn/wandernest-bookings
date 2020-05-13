@@ -78,7 +78,7 @@ const Update = styled.button`
   background-color: black;
   color: white;
   padding: 10px 0px;
-  border-radius: 3px;
+  border-radius: 2px;
   font-size: 12px;
 `;
 
