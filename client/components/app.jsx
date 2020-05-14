@@ -31,7 +31,7 @@ const CriteriaWrapper = styled.div`
   margin: 20px 10px;
 `;
 
-class App extends React.Component {
+class Bookings extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -76,4 +76,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default Bookings;
