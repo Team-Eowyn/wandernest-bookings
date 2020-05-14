@@ -19,7 +19,7 @@ const Wrapper = styled.div`
   display: grid;
   grid-area: 1 / 1 / span 1 / span 1;
   height: 419px;
-  grid-template: 57px 317px 45px / 298px 299px;
+  grid-template: 57px 325px 37px / 298px 299px;
 
 
 `;
@@ -58,6 +58,7 @@ const Footer = styled.div`
   padding: 16px 0px;
   border-top: 1px solid lightgray;
   margin: 0px 15px;
+  font-size: 10px;
 `;
 
 const Arrow = styled.div`

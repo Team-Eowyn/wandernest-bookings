@@ -33,6 +33,7 @@ class RateCriteria extends React.Component {
       showCalendar: false,
       showGuests: false,
       checkedIn: false,
+      today: [moment().format('M'), moment().format('D')],
     };
     this.showCalendarModal = this.showCalendarModal.bind(this);
     this.updateMainPrice = this.updateMainPrice.bind(this);
@@ -72,20 +73,24 @@ class RateCriteria extends React.Component {
     const dateObject = `2020-${clickMonth}-${newDate}`;
     const nextDay = (clickDay + 1).toString();
     const nextDayObject = `2020-${clickMonth}-${nextDay}`;
+    const checkinMonth = Number(clickMonth);
+    const thisDay = Number(this.state.today[1]);
+    const thisMonth = Number(this.state.today[0]);
+    console.log(thisDay, thisMonth);
 
-    if (!this.state.checkedIn) {
+    if (!this.state.checkedIn && (thisMonth < checkinMonth || (thisMonth === checkinMonth && thisDay <= clickDay))) {
       this.setState({
         checkinDay: moment(dateObject).format('ddd'),
         checkinDate: `${moment(dateObject).format('M')}/${moment(dateObject).format('D')}/${moment(dateObject).format('YY')}`,
         checkoutDay: moment(nextDayObject).format('ddd'),
-        checkoutDate:  `${moment(nextDayObject).format('M')}/${moment(nextDayObject).format('D')}/${moment(nextDayObject).format('YY')}`,
+        checkoutDate: `${moment(nextDayObject).format('M')}/${moment(nextDayObject).format('D')}/${moment(nextDayObject).format('YY')}`,
       });
       this.state.checkedIn = true;
     } else {
-      const checkoutMonth = Number(clickMonth);
       const checkedInArray = this.state.checkinDate.split('/');
       const monthNum = Number(checkedInArray[0]);
       const dayNum = Number(checkedInArray[1]);
+      const checkoutMonth = Number(clickMonth);
       // allow only dates after checkin to be clicked:
       if ((checkoutMonth === monthNum && clickDay > dayNum) || checkoutMonth > monthNum) {
         this.setState({
@@ -137,6 +142,7 @@ class RateCriteria extends React.Component {
   showCalendarModal(e) {
     e.preventDefault();
     if (!this.state.showCalendar) {
+
       this.setState({
         showGuests: false,
         showCalendar: true,

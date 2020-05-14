@@ -24,9 +24,17 @@ const MonthTitle = styled.span`
   padding-top: 3px;
 `;
 
-const NextButton = styled.span`
+const NextButtonWrapper = styled.span`
   display: grid;
   grid-area: 1 / 2 / span 1 / span 1;
+`;
+
+const NextButton = styled.button`
+  background-color: transparent;
+  padding-bottom: 25px;
+  border-color: transparent;
+  border-style: none;
+  font-size: 16px;
 `;
 
 const CalTable = styled.table`
@@ -131,26 +139,29 @@ class RightCalendar extends React.Component {
         <Wrapper>
           <Header>
             <MonthTitle>{moment(`${this.props.year}-${this.getCurrentMonth()}-${this.props.day}`).format('MMMM')} 2020</MonthTitle>
-            <NextButton>
-              <button type="button" className="next" onClick={this.props.handleNextClick}>{'>'} </button>
-            </NextButton>
+            <NextButtonWrapper>
+              <NextButton type="button" onClick={this.props.handleNextClick}>{'>'} </NextButton>
+            </NextButtonWrapper>
           </Header>
           <CalTable>
-
-            <Week>
-              {moment.weekdaysShort().map((day) => {
-                return <WeekDay key={day}>{ day }</WeekDay>;
+            <thead>
+              <Week>
+                {moment.weekdaysShort().map((day, index) => {
+                  return <WeekDay key={index}>{ day }</WeekDay>;
+                })}
+              </Week>
+            </thead>
+            <tbody>
+              {this.makeRows().map((week, index) => {
+                return (
+                  <Week key={index}>
+                    {week.map((day, index) => {
+                      return <Day key={index} onClick={(e) => { this.props.handleDateClick(e, day, this.getCurrentMonth()); }}>{ day }</Day>;
+                    })}
+                  </Week>
+                );
               })}
-            </Week>
-            {this.makeRows().map((week) => {
-              return (
-                <Week>
-                  {week.map((day) => {
-                    return <Day onClick={(e) => { this.props.handleDateClick(e, day, this.getCurrentMonth()); }}>{ day }</Day>;
-                  })}
-                </Week>
-              );
-            })}
+            </tbody>
           </CalTable>
         </Wrapper>
       </div>
