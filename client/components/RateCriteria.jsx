@@ -59,7 +59,7 @@ class RateCriteria extends React.Component {
         this.updateMainPrice(`$${mainPrice}`);
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error, 'error on RateCriteria component did mount');
       })
       .finally(() => {
 
