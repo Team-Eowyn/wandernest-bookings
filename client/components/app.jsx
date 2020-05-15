@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import RateCriteria from './RateCriteria.jsx';
 
-const Wrapper = styled.div`
+const BookingsWrapper = styled.div`
   display: grid;
   width: 395px;
   height: 430px
@@ -50,7 +50,7 @@ class Bookings extends React.Component {
         this.updateAvailability(availability);
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error, 'error on Bookings component did mount');
       })
       .finally(() => {
 
@@ -66,12 +66,12 @@ class Bookings extends React.Component {
 
   render() {
     return (
-      <Wrapper>
+      <BookingsWrapper>
         <Availability>{this.state.availability}</Availability>
         <CriteriaWrapper>
           <RateCriteria />
         </CriteriaWrapper>
-      </Wrapper>
+      </BookingsWrapper>
     );
   }
 }

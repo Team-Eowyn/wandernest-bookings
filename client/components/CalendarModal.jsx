@@ -10,7 +10,7 @@ const Calendar = styled.div`
   z-index: 5;
   height: 419px;
   width: 597px;
-  background-color: whitesmoke;
+  background-color: white;
   margin-left: 400px;
   grid-template: 1fr / 1fr;
 `;
