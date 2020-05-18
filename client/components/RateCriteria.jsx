@@ -88,7 +88,6 @@ class RateCriteria extends React.Component {
   handleDateClick(e, clickDay, clickMonth) {
     e.preventDefault();
     const dateObject = this.makeDateObject(2020, clickMonth, clickDay);
-    // const nextDay = (clickDay + 1).toString();
     const nextDay = moment(dateObject).add(1, 'day').format('DD');
     const nextDayMonth = moment(dateObject).add(1, 'day').format('MM');
     const nextDayObject = `2020-${nextDayMonth}-${nextDay}`;
