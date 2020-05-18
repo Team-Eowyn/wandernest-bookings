@@ -66,7 +66,7 @@ class RateCriteria extends React.Component {
       .then((response) => {
         const weekday = response.data[0].springPrice.weekday;
         const weekend = response.data[0].springPrice.weekend;
-        this.updatePrices(`$${weekday}`, `$${weekend}`);
+        this.updatePrices(`$${Number.parseFloat(weekday).toFixed(2)}`, `$${Number.parseFloat(weekend).toFixed(2)}`);
         this.updateDisplayPrice();
       })
       .catch((error) => {
