@@ -38,6 +38,7 @@
     "webpack-cli": "^3.3.11"
   },
   "dependencies": {
+    "@styled-icons/fa-brands": "^10.0.0",
     "axios": "^0.19.2",
     "babel-jest": "^26.0.1",
     "express": "^4.17.1",
@@ -50,6 +51,7 @@
     "react-icons": "^3.10.0",
     "react-test-renderer": "^16.13.1",
     "styled-components": "^5.1.0",
+    "styled-icons": "^10.2.1",
     "tail.datetime": "^0.4.13"
   }
 }
