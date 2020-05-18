@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { FaKiwiBird } from 'react-icons/fa';
+import moment from 'moment';
 
 const LowestPrice = styled.p`
   display: grid;
@@ -134,17 +135,33 @@ class ViewDeals extends React.Component {
     });
   }
 
-
   render() {
+    const dateInfo = this.props.checkinDate.split('/');
+    const year = dateInfo[2];
+    const month = dateInfo[0];
+    const day = dateInfo[1];
+    const newDateObj = this.props.makeDateObject(year, month, day);
+    const oneWeekLater = moment().add(7, 'days');
+    let cancelIntro;
+    let cancelDate;
+
+    if (moment(newDateObj).isAfter(oneWeekLater)) {
+      cancelIntro = 'Free cancellation until';
+      cancelDate = this.props.cancellation
+    } else {
+      cancelIntro = 'This is a short-notice booking';
+      cancelDate = '';
+    }
+
     return (
       <div>
         <LowestPrice>Lowest price we found</LowestPrice>
         <MainOffer>
           <MainOfferIcon><FaKiwiBird /></MainOfferIcon>
           <MainOfferSite>WanderNest</MainOfferSite>
-          <MainOfferPrice>{this.props.mainPrice}</MainOfferPrice>
+          <MainOfferPrice>{this.props.displayPrice}</MainOfferPrice>
         </MainOffer>
-        <Cancellation>Free cancellation until 6/1/20</Cancellation>
+        <Cancellation>{`${cancelIntro} ${cancelDate}`}</Cancellation>
         <ViewDealWrapper>
           <ViewDealButton>View Deal</ViewDealButton>
         </ViewDealWrapper>
