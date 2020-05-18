@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { FaKiwiBird } from 'react-icons/fa';
+import { Tripadvisor } from '@styled-icons/fa-brands';
 import moment from 'moment';
 
 const LowestPrice = styled.p`
@@ -25,11 +25,14 @@ const MainOffer = styled.div`
   margin: 10px;
 `;
 
-const MainOfferIcon = styled.div`
+const MainOfferIcon = styled(Tripadvisor)`
   display: grid:
   grid-area: 1 / 1 / span 1 / span 1;
   padding-top: 20px;
   padding-left: 5px;
+  border-radius: 0px;
+  color: black;
+  font-weight: bold;
 `;
 
 const MainOfferSite = styled.p`
@@ -157,7 +160,7 @@ class ViewDeals extends React.Component {
       <div>
         <LowestPrice>Lowest price we found</LowestPrice>
         <MainOffer>
-          <MainOfferIcon><FaKiwiBird /></MainOfferIcon>
+          <MainOfferIcon size='25px'></MainOfferIcon>
           <MainOfferSite>WanderNest</MainOfferSite>
           <MainOfferPrice>{this.props.displayPrice}</MainOfferPrice>
         </MainOffer>
