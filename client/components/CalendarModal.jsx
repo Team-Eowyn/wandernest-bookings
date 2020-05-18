@@ -9,7 +9,7 @@ const Calendar = styled.div`
   display: grid;
   background-color: whitesmoke;
   z-index: 5;
-  height: 419px;
+  height: 430px;
   width: 597px;
   margin-left: 400px;
   grid-template: 1fr / 1fr;
@@ -55,10 +55,9 @@ const Footer = styled.div`
   display: grid;
   grid-area: 3 / 1 / span 1 / span 2;
   background-color: whitesmoke;
-  color: gray;
   padding: 16px 0px;
   border-top: 1px solid lightgray;
-  margin: 0px 15px;
+  margin: 10px 15px;
   font-size: 10px;
 `;
 
@@ -117,9 +116,7 @@ const CalendarModal = (props) => {
               handleDateClick={props.handleDateClick}
             />
           </Right>
-          <Footer>
-            <span>Average daily rates: $240-$350</span>
-          </Footer>
+          <Footer />
         </Wrapper>
       </Calendar>
     </div>
