@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 import React from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
@@ -29,14 +30,18 @@ class RateCriteria extends React.Component {
       rooms: 1,
       adults: 2,
       children: 0,
-      mainPrice: '0',
+      weekdayPrice: '0',
+      weekendPrice: '0',
+      displayPrice: '',
       showCalendar: false,
       showGuests: false,
       checkedIn: false,
+      checkedOut: false,
       today: [moment().format('M'), moment().format('D')],
+      cancellation: '',
     };
     this.showCalendarModal = this.showCalendarModal.bind(this);
-    this.updateMainPrice = this.updateMainPrice.bind(this);
+    this.updatePrices = this.updatePrices.bind(this);
     this.handleNextClick = this.handleNextClick.bind(this);
     this.handlePrevClick = this.handlePrevClick.bind(this);
     this.handleDateClick = this.handleDateClick.bind(this);
@@ -47,6 +52,10 @@ class RateCriteria extends React.Component {
     this.increaseAdults = this.increaseAdults.bind(this);
     this.decreaseChildren = this.decreaseChildren.bind(this);
     this.increaseChildren = this.increaseChildren.bind(this);
+    this.updateDisplayPrice = this.updateDisplayPrice.bind(this);
+    this.checkForWeekendPrice = this.checkForWeekendPrice.bind(this);
+    this.makeDateObject = this.makeDateObject.bind(this);
+    this.updateCancellation = this.updateCancellation.bind(this);
   }
 
   componentDidMount() {
@@ -55,8 +64,10 @@ class RateCriteria extends React.Component {
 
     axios.get(`api/bookings/${getID}`)
       .then((response) => {
-        const mainPrice = response.data[0].springPrice.weekday;
-        this.updateMainPrice(`$${mainPrice}`);
+        const weekday = response.data[0].springPrice.weekday;
+        const weekend = response.data[0].springPrice.weekend;
+        this.updatePrices(`$${weekday}`, `$${weekend}`);
+        this.updateDisplayPrice();
       })
       .catch((error) => {
         console.log(error, 'error on RateCriteria component did mount');
@@ -64,6 +75,14 @@ class RateCriteria extends React.Component {
       .finally(() => {
 
       });
+  }
+
+  getWeekdayPrice() {
+    return this.state.weekdayPrice;
+  }
+
+  getWeekendPrice() {
+    return this.state.weekendPrice;
   }
 
   handleDateClick(e, clickDay, clickMonth) {
@@ -76,7 +95,13 @@ class RateCriteria extends React.Component {
     const checkinMonth = Number(clickMonth);
     const thisDay = Number(this.state.today[1]);
     const thisMonth = Number(this.state.today[0]);
-    console.log(thisDay, thisMonth);
+
+    if (this.state.checkedOut) {
+      this.setState({
+        checkedOut: false,
+        displayPrice: this.getWeekdayPrice(),
+      });
+    }
 
     if (!this.state.checkedIn && (thisMonth < checkinMonth || (thisMonth === checkinMonth && thisDay <= clickDay))) {
       this.setState({
@@ -84,8 +109,14 @@ class RateCriteria extends React.Component {
         checkinDate: `${moment(dateObject).format('M')}/${moment(dateObject).format('D')}/${moment(dateObject).format('YY')}`,
         checkoutDay: moment(nextDayObject).format('ddd'),
         checkoutDate: `${moment(nextDayObject).format('M')}/${moment(nextDayObject).format('D')}/${moment(nextDayObject).format('YY')}`,
+        checkedIn: true,
       });
-      this.state.checkedIn = true;
+      new Promise((resolve, reject) => {
+        resolve(this.state.checkedIn === true);
+      })
+        .then(result => {
+          this.updateCancellation(this.state.checkinDate);
+        });
     } else {
       const checkedInArray = this.state.checkinDate.split('/');
       const monthNum = Number(checkedInArray[0]);
@@ -96,9 +127,16 @@ class RateCriteria extends React.Component {
         this.setState({
           checkoutDay: moment(dateObject).format('ddd'),
           checkoutDate: `${moment(dateObject).format('M')}/${moment(dateObject).format('D')}/${moment(dateObject).format('YY')}`,
+          checkedOut: true,
+          checkedIn: false,
         });
-
-        this.state.checkedIn = false;
+        new Promise((resolve, reject) => {
+          resolve(this.state.checkedOut === true);
+        })
+          .then(result => {
+            this.updateDisplayPrice();
+            this.updateCancellation(this.state.checkinDate);
+          });
       }
     }
   }
@@ -133,10 +171,64 @@ class RateCriteria extends React.Component {
     });
   }
 
-  updateMainPrice(newPrice) {
+  updatePrices(newWeekday, newWeekend) {
     this.setState({
-      mainPrice: newPrice,
+      weekdayPrice: newWeekday,
+      weekendPrice: newWeekend,
     });
+  }
+
+  updateDisplayPrice() {
+    if (!this.state.checkedOut) {
+      this.setState({
+        displayPrice: this.getWeekdayPrice(),
+      });
+    } else if (this.state.checkedOut) {
+      this.setState({
+        displayPrice: this.checkForWeekendPrice(),
+      });
+    }
+  }
+
+  makeDateObject(year, month, day) {
+    let YYYY = typeof year === 'string' ? year : year.toString();
+    let MM = typeof month === 'string' ? month : month.toString();
+    let DD = typeof day === 'string' ? day : day.toString();
+
+    YYYY = YYYY.length === 4 ? year : `20${year}`;
+    MM = MM.length === 2 ? month : `0${month}`;
+    DD = DD.length === 2 ? day : `0${day}`;
+
+    return `${YYYY}-${MM}-${DD}`;
+  }
+
+  checkForWeekendPrice() {
+    const checkinInfo = this.state.checkinDate.split('/');
+    const checkoutInfo = this.state.checkoutDate.split('/');
+    let year = checkinInfo[2];
+    let monthIn = Number(checkinInfo[0]);
+    let dayIn = Number(checkinInfo[1]);
+    let monthOut = Number(checkoutInfo[0]);
+    let dayOut = Number(checkoutInfo[1]);
+    const includesWeekend = (element) => ['Fri', 'Sat', 'Sun'].includes(element);
+    const daysInRange = [];
+    let price;
+    let dtObj = this.makeDateObject(year, monthIn, dayIn);
+    daysInRange.push(moment(dtObj).format('ddd'));
+
+    if (monthIn === monthOut) {
+      for (let i = Number(checkinInfo[1]); i < dayOut; i++) {
+        dayIn += 1;
+        dtObj = this.makeDateObject(year, monthIn, dayIn);
+        daysInRange.push(moment(dtObj).format('ddd'));
+      }
+      if (daysInRange.some(includesWeekend)) {
+        price = this.state.weekendPrice;
+      } else {
+        price = this.state.weekdayPrice;
+      }
+    }
+    return price;
   }
 
   showCalendarModal(e) {
@@ -214,6 +306,18 @@ class RateCriteria extends React.Component {
     }
   }
 
+  updateCancellation(date) {
+    const dateInfo = date.split('/');
+    const year = dateInfo[2];
+    const month = dateInfo[0];
+    const day = dateInfo[1];
+    const newDateObj = this.makeDateObject(year, month, day);
+
+    this.setState({
+      cancellation: moment(newDateObj).subtract(7, 'days').format('MMMM Do YYYY'),
+    });
+  }
+
   render() {
     return (
       <div>
@@ -239,6 +343,7 @@ class RateCriteria extends React.Component {
           handlePrevClick={this.handlePrevClick}
           handleDateClick={this.handleDateClick}
           checkedIn={this.state.checkedIn}
+          showCalendarModal={this.showCalendarModal}
         />
         <ChooseDates
           checkinDate={this.state.checkinDate}
@@ -254,7 +359,13 @@ class RateCriteria extends React.Component {
           showGuestsModal={this.showGuestsModal}
         />
         <DealsWrapper>
-          <ViewDeals mainPrice={this.state.mainPrice} />
+          <ViewDeals
+            displayPrice={this.state.displayPrice}
+            weekendPrice={this.state.displayPrice}
+            cancellation={this.state.cancellation}
+            checkinDate={this.state.checkinDate}
+            makeDateObject={this.makeDateObject}
+          />
         </DealsWrapper>
       </div>
     );

@@ -7,10 +7,10 @@ import RightCalendar from './RightCalendar.jsx';
 const Calendar = styled.div`
   position: absolute;
   display: grid;
+  background-color: whitesmoke;
   z-index: 5;
   height: 419px;
   width: 597px;
-  background-color: white;
   margin-left: 400px;
   grid-template: 1fr / 1fr;
 `;
@@ -18,6 +18,7 @@ const Calendar = styled.div`
 const Wrapper = styled.div`
   display: grid;
   grid-area: 1 / 1 / span 1 / span 1;
+  background-color: whitesmoke;
   height: 419px;
   grid-template: 57px 325px 37px / 298px 299px;
 
@@ -27,9 +28,9 @@ const Wrapper = styled.div`
 const Header = styled.div`
   display: grid;
   grid-area: 1 / 1 / span 1 / span 2;
+  background-color: whitesmoke;
   color: black;
   text-align: center;
-  background-color: whitesmoke;
   margin: 0px 15px;
   padding: 15px 0px 10px 0px;
   border-bottom: 1px solid lightgray;
@@ -73,6 +74,18 @@ const Arrow = styled.div`
   margin-top: 12px;
 `;
 
+const CloseCalModal = styled.button`
+  position: absolute;
+  z-index: 15;
+  width: 15px;
+  heigth: 15px;
+  margin-left: 965px;
+  background-color: transparent;
+  border-color: transparent;
+  margin-top: 5px;
+  font-weight: bold;
+`;
+
 const CalendarModal = (props) => {
   if (!props.showCalendar) {
     return null;
@@ -80,6 +93,7 @@ const CalendarModal = (props) => {
   return (
     <div>
       <Arrow />
+      <CloseCalModal onClick={props.showCalendarModal}>X</CloseCalModal>
       <Calendar>
         <Wrapper>
           <Header>
