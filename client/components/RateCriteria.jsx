@@ -56,6 +56,7 @@ class RateCriteria extends React.Component {
     this.checkForWeekendPrice = this.checkForWeekendPrice.bind(this);
     this.makeDateObject = this.makeDateObject.bind(this);
     this.updateCancellation = this.updateCancellation.bind(this);
+    this.getTotalDaysBooked = this.getTotalDaysBooked.bind(this);
   }
 
   componentDidMount() {
@@ -83,6 +84,21 @@ class RateCriteria extends React.Component {
 
   getWeekendPrice() {
     return this.state.weekendPrice;
+  }
+
+  getTotalDaysBooked(dateIn, dateOut) {
+    let dayInNum = Number(moment(dateIn).format('D'));
+    let dayOutNum = Number(moment(dateOut).format('D'));
+    let dayCount = 0;
+    if (moment(dateIn).format('M') === moment(dateOut).format('M')) {
+      while (dayCount <= dayOutNum - dayInNum) {
+        dayCount += 1;
+      }
+    } else {
+      let lastDayOfMonth = Number(moment(dateIn).endOf('month').format('D'));
+      dayCount = lastDayOfMonth - dayInNum + 1 + dayOutNum;
+    }
+    return dayCount;
   }
 
   handleDateClick(e, clickDay, clickMonth) {
@@ -212,20 +228,26 @@ class RateCriteria extends React.Component {
     const includesWeekend = (element) => ['Fri', 'Sat', 'Sun'].includes(element);
     const daysInRange = [];
     let price;
-    let dtObj = this.makeDateObject(year, monthIn, dayIn);
-    daysInRange.push(moment(dtObj).format('ddd'));
 
-    if (monthIn === monthOut) {
-      for (let i = Number(checkinInfo[1]); i < dayOut; i++) {
-        dayIn += 1;
-        dtObj = this.makeDateObject(year, monthIn, dayIn);
-        daysInRange.push(moment(dtObj).format('ddd'));
-      }
-      if (daysInRange.some(includesWeekend)) {
-        price = this.state.weekendPrice;
-      } else {
-        price = this.state.weekdayPrice;
-      }
+    let dtObjIn = this.makeDateObject(year, monthIn, dayIn);
+    let dtObjOut = this.makeDateObject(year, monthOut, dayOut);
+    const totalDays = this.getTotalDaysBooked(dtObjIn, dtObjOut);
+
+    let newDtObj = dtObjIn;
+    let newMonth;
+    let newDay;
+    let i = 0;
+    while (i < totalDays) {
+      daysInRange.push(moment(newDtObj).format('ddd'));
+      newMonth = moment(newDtObj).add(1, 'day').format('MM');
+      newDay = moment(newDtObj).add(1, 'day').format('DD');
+      newDtObj = `2020-${newMonth}-${newDay}`;
+      i++;
+    }
+    if (daysInRange.some(includesWeekend)) {
+      price = this.state.weekendPrice;
+    } else {
+      price = this.state.weekdayPrice;
     }
     return price;
   }
